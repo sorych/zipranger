@@ -4,15 +4,11 @@ import static com.sorych.zipranger.ZipRange.fromInt;
 
 import com.sorych.zipranger.ZipRange;
 import java.util.StringTokenizer;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 
 public class ZipRangeUtil {
 
   private String zipRangeRegex;
   private String zipRangeDelim;
-
-  final static Log LOGGER = LogFactory.getLog(ZipRangeUtil.class);
 
   public ZipRangeUtil(String zipRangeRegex, String zipRangeDelim) {
     this.zipRangeRegex = zipRangeRegex;
@@ -21,7 +17,6 @@ public class ZipRangeUtil {
 
   public void validate(ZipRange zipRange) {
     if (zipRange.end < zipRange.begin) {
-      LOGGER.error("wrong zip range format, begin > end: " + zipRange);
       throw new IllegalArgumentException("wrong zip range format, begin > end: " + zipRange);
     }
   }
@@ -32,9 +27,8 @@ public class ZipRangeUtil {
     }
     StringTokenizer multiTokenizer = new StringTokenizer(value, zipRangeDelim);
     if (multiTokenizer.countTokens() < 2) {
-      String errormsg = String.format("zip range cannot be tokenized using %s delimeter", zipRangeDelim);
-      LOGGER.error(errormsg);
-      throw new IllegalStateException(errormsg);
+      throw new IllegalStateException(
+          String.format("zip range cannot be tokenized using %s delimeter", zipRangeDelim));
     }
     return fromInt(Integer.parseInt(multiTokenizer.nextToken()),
         Integer.parseInt(multiTokenizer.nextToken()));
@@ -46,15 +40,15 @@ public class ZipRangeUtil {
 
   /**
    * merges two ZipRange to one if overlap
-   *
+   * @param zr1
+   * @param zr2
    * @return the ZipRange result of the merge, null if not overlapping
    */
   public ZipRange merge(ZipRange zr1, ZipRange zr2) {
     if (!overlap(zr1, zr2)) {
       return null;
     }
-    return fromInt(zr1.begin > zr2.begin ? zr2.begin : zr1.begin,
-        zr1.end > zr2.end ? zr1.end : zr2.end);
+    return fromInt(zr1.begin > zr2.begin ? zr2.begin : zr1.begin, zr1.end > zr2.end ? zr1.end : zr2.end);
   }
 }
 
