@@ -1,5 +1,6 @@
 package com.sorych.zipranger;
 
+import com.sorych.zipranger.receiver.ResultReceiver;
 import java.util.ArrayList;
 import java.util.List;
 

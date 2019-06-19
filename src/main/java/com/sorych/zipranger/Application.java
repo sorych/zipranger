@@ -2,15 +2,17 @@ package com.sorych.zipranger;
 
 public class Application {
 
-  private static ResultReceiver resultReceiver;
-
-  final static String DEFAULT_OUTPUT = "hi there";
+  static ApplicationConfigurator applicationConfigurator = new DefaultApplicationConfigurator();
 
   public static void main(String... args) {
-    resultReceiver.consume(DEFAULT_OUTPUT);
+    ZipRangesProcessor zipRangesProcessor = new ZipRangesProcessor();
+    zipRangesProcessor.setZipRangesReader(applicationConfigurator.getZipRangesReader(args));
+    zipRangesProcessor.setResultReceiver(applicationConfigurator.getResultReceiver());
+    zipRangesProcessor.proceedZipRangesTask();
   }
 
-  static void setResultReceiver(ResultReceiver resultReceiver) {
-    Application.resultReceiver = resultReceiver;
+  public static void setApplicationConfigurator(
+      ApplicationConfigurator applicationConfigurator) {
+    Application.applicationConfigurator = applicationConfigurator;
   }
 }

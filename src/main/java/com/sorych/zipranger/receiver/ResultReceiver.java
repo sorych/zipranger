@@ -1,4 +1,4 @@
-package com.sorych.zipranger;
+package com.sorych.zipranger.receiver;
 
 public interface ResultReceiver {
 
