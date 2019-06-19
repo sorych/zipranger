@@ -39,13 +39,16 @@ public class ZipRangeUtil {
   }
 
   /**
-   * we assume here that first is less than second
-   * @param zp1
+   * merges two ZipRange to one if overlap
+   * @param zr1
    * @param zr2
-   * @return the ZipRange result of the merge
+   * @return the ZipRange result of the merge, null if not overlapping
    */
-  public ZipRange merge(ZipRange zp1, ZipRange zr2) {
-    return fromInt(zp1.begin, zp1.end > zr2.end ? zp1.end : zr2.end);
+  public ZipRange merge(ZipRange zr1, ZipRange zr2) {
+    if (!overlap(zr1, zr2)) {
+      return null;
+    }
+    return fromInt(zr1.begin > zr2.begin ? zr2.begin : zr1.begin, zr1.end > zr2.end ? zr1.end : zr2.end);
   }
 }
 

@@ -3,6 +3,7 @@ package com.sorych.zipranger;
 import static com.sorych.zipranger.ZipRange.fromInt;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import com.sorych.zipranger.configurator.ApplicationConfigurator;
@@ -87,6 +88,11 @@ public class ZipRangeUtilTest {
   public void shouldBeMerged2() {
     assertEquals(fromInt(12312, 52312),
         zipRangeUtil.merge(fromInt(12312, 52312), fromInt(22312, 32312)));
+  }
+
+  @Test
+  public void shouldNotBeMerged() {
+    assertNull(zipRangeUtil.merge(fromInt(12312, 32312), fromInt(42312, 92312)));
   }
 
   @Test

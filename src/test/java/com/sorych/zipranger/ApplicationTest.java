@@ -66,7 +66,7 @@ public class ApplicationTest {
   }
 
   @Test
-  public void shouldBeMeerged() {
+  public void shouldBeMerged() {
     Application.setApplicationConfigurator(new TestApplicationConfigurator(receiver,
         new TestZipRangesReader("[15432,98312] [23451,38765]")));
     Application.main();
@@ -74,7 +74,7 @@ public class ApplicationTest {
   }
 
   @Test
-  public void shouldBeMeerged2() {
+  public void shouldBeMerged2() {
     Application.setApplicationConfigurator(new TestApplicationConfigurator(receiver,
         new TestZipRangesReader("[15432,98312] [23451,38765] [13451,38795]")));
     Application.main();
@@ -82,7 +82,7 @@ public class ApplicationTest {
   }
 
   @Test
-  public void shouldNotBeMeerged() {
+  public void shouldNotBeMerged() {
     Application.setApplicationConfigurator(new TestApplicationConfigurator(receiver,
         new TestZipRangesReader("[15432,18312] [23451,38765] [43451,78795]")));
     Application.main();

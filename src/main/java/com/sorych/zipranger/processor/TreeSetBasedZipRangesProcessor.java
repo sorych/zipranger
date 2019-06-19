@@ -50,25 +50,25 @@ public class TreeSetBasedZipRangesProcessor implements ZipRangesProcessor {
     Iterator<ZipRange> first = zipRanges.iterator();
     Iterator<ZipRange> second = zipRanges.iterator();
 
-    ZipRange zp1 = first.next();
+    ZipRange zr1 = first.next();
     second.next();
     ZipRange zr2;
     if (second.hasNext()) {
       zr2 = second.next();
     } else {
-      resultReceiver.consume(zp1);
+      resultReceiver.consume(zr1);
       return;
     }
 
     while (true) {
-      if (zipRangeUtil.overlap(zp1, zr2)) {
-        zp1 = zipRangeUtil.merge(zp1, zr2);
+      if (zipRangeUtil.overlap(zr1, zr2)) {
+        zr1 = zipRangeUtil.merge(zr1, zr2);
       } else {
-        resultReceiver.consume(zp1);
-        zp1 = first.next();
+        resultReceiver.consume(zr1);
+        zr1 = first.next();
       }
       if (!second.hasNext()) {
-        resultReceiver.consume(zp1);
+        resultReceiver.consume(zr1);
         break;
       }
       zr2 = second.next();
