@@ -2,12 +2,12 @@ package com.sorych.zipranger;
 
 public class Application {
 
-  static ApplicationConfigurator applicationConfigurator = new DefaultApplicationConfigurator();
+  private static ApplicationConfigurator applicationConfigurator = new DefaultApplicationConfigurator();
 
   public static void main(String... args) {
-    ZipRangesProcessor zipRangesProcessor = new ZipRangesProcessor();
-    zipRangesProcessor.setZipRangesReader(applicationConfigurator.getZipRangesReader(args));
-    zipRangesProcessor.setResultReceiver(applicationConfigurator.getResultReceiver());
+    ZipRangesProcessor zipRangesProcessor = new TreeSetBasedZipRangesProcessor(
+        applicationConfigurator.getResultReceiver(),
+        applicationConfigurator.getZipRangesReader(args));
     zipRangesProcessor.proceedZipRangesTask();
   }
 
