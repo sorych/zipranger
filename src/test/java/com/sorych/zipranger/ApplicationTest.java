@@ -16,6 +16,8 @@ public class ApplicationTest {
 
     Application.main();
 
-    assertEquals("[0,0]", receiver.finalResult());
+    assertEquals("[00000,54231]", receiver.finalResult());
   }
+
+
 }

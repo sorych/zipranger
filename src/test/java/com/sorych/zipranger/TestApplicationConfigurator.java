@@ -9,6 +9,8 @@ public class TestApplicationConfigurator implements ApplicationConfigurator {
     this.resultReceiver = resultReceiver;
   }
 
+
+
   private ResultReceiver resultReceiver;
 
   public ZipRangesReader getZipRangesReader(String... args) {

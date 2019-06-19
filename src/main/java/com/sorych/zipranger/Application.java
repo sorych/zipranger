@@ -6,8 +6,7 @@ public class Application {
 
   public static void main(String... args) {
     ZipRangesProcessor zipRangesProcessor = new TreeSetBasedZipRangesProcessor(
-        applicationConfigurator.getResultReceiver(),
-        applicationConfigurator.getZipRangesReader(args));
+        applicationConfigurator);
     zipRangesProcessor.proceedZipRangesTask();
   }
 

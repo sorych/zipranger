@@ -8,7 +8,7 @@ public class TestZipRangesReader implements ZipRangesReader {
   Stack<String> zipRanges = new Stack<>();
 
   public TestZipRangesReader() {
-    String first = "hi there";
+    String first = "[00000,54231]";
     zipRanges.push(first);
   }
 
