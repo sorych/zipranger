@@ -1,9 +1,12 @@
-package com.sorych.zipranger;
+package com.sorych.zipranger.processor;
 
+import com.sorych.zipranger.ZipRange;
 import com.sorych.zipranger.comparator.ZipRangesComparator;
+import com.sorych.zipranger.configurator.ApplicationConfigurator;
 import com.sorych.zipranger.reader.ZipRangesReader;
 import com.sorych.zipranger.receiver.ResultReceiver;
 import com.sorych.zipranger.util.ZipRangeUtil;
+import java.util.Iterator;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -42,11 +45,36 @@ public class TreeSetBasedZipRangesProcessor implements ZipRangesProcessor {
   }
 
   private void finalizeProcessing() {
-    //todo
-    for (Object zipRange : zipRanges.toArray()) {
-      resultReceiver.consume(zipRange.toString());
+    resultReceiver.informJobIsAboutDone();
+
+    Iterator<ZipRange> first = zipRanges.iterator();
+    Iterator<ZipRange> second = zipRanges.iterator();
+
+    ZipRange zp1 = first.next();
+    second.next();
+    ZipRange zr2;
+    if (second.hasNext()) {
+      zr2 = second.next();
+    } else {
+      resultReceiver.consume(zp1);
+      return;
+    }
+
+    while (true) {
+      if (zipRangeUtil.overlap(zp1, zr2)) {
+        zp1 = zipRangeUtil.merge(zp1, zr2);
+      } else {
+        resultReceiver.consume(zp1);
+        zp1 = first.next();
+      }
+      if (!second.hasNext()) {
+        resultReceiver.consume(zp1);
+        break;
+      }
+      zr2 = second.next();
     }
   }
+
 
   private void processRange(ZipRange zipRange) {
     zipRanges.add(zipRange);

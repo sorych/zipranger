@@ -1,7 +1,5 @@
 package com.sorych.zipranger;
 
-import java.util.StringTokenizer;
-
 public class ZipRange {
 
   public int begin;

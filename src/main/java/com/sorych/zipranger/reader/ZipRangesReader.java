@@ -1,8 +1,10 @@
 package com.sorych.zipranger.reader;
 
-import com.sorych.zipranger.ZipRange;
-
 public interface ZipRangesReader {
-  public String getNextZipRangeString();
+
+  /**
+   * @return next ZipRange String read from input or null if input is over
+   */
+  String getNextZipRangeString();
 
 }

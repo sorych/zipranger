@@ -9,12 +9,12 @@ public class TestResultReceiver implements ResultReceiver {
   private List<String> applicationResults = new ArrayList<>();
 
   @Override
-  public void consume(String resultBatch) {
-    applicationResults.add(resultBatch);
+  public void consume(ZipRange result) {
+    applicationResults.add(result.toString());
   }
 
   @Override
-  public String finalResult() {
+  public String getFinalResult() {
     return String.join(" ", applicationResults);
   }
 }

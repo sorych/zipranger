@@ -1,5 +1,10 @@
 package com.sorych.zipranger;
 
+import com.sorych.zipranger.configurator.ApplicationConfigurator;
+import com.sorych.zipranger.configurator.DefaultApplicationConfigurator;
+import com.sorych.zipranger.processor.TreeSetBasedZipRangesProcessor;
+import com.sorych.zipranger.processor.ZipRangesProcessor;
+
 public class Application {
 
   private static ApplicationConfigurator applicationConfigurator = new DefaultApplicationConfigurator();

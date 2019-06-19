@@ -1,4 +1,4 @@
-package com.sorych.zipranger;
+package com.sorych.zipranger.configurator;
 
 import com.sorych.zipranger.reader.ZipRangesReader;
 import com.sorych.zipranger.receiver.ResultReceiver;

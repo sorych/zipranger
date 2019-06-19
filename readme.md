@@ -30,55 +30,49 @@ If the input = [94133,94133] [94200,94299] [94226,94399]
 Then the output should be = [94133,94133] [94200,94399]
 
 
-### Prerequisites
 
-What things you need to install the software and how to install them
-
-```
-Give examples
-```
-
-### Installing
-
-A step by step series of examples that tell you how to get a development env running
-
-Say what the step will be
+### Running
 
 ```
-Give the example
-```
+Build the project using gradle and then start jar in console.
 
-And repeat
-
+Put in the line of zip ranges, you can use multi-lines input, just tupe in X when you are done
 ```
-until finished
-```
-
-End with an example of getting some data out of the system or using it for a little demo
 
 ## Running the tests
 
-Explain how to run the automated tests for this system
-
-### Break down into end to end tests
-
-Explain what these tests test and why
-
 ```
-Give an example
+tests are the part of standard gradle build procedure
 ```
 
-### And coding style tests
-
-Explain what these tests test and why
+## Console output sample
 
 ```
-Give an example
+dimasmac:zipranger DimaS$ ./gradlew clean build
+BUILD SUCCESSFUL in 1s
+8 actionable tasks: 8 executed
+
+dimasmac:zipranger DimaS$ java -jar build/libs/zipranger-1.0.jar 
+please insert next line or type 'X' to finish input
+[15432,18312] [23451,38765] [43451,78795] [15432,18312] [23451,38765] [43451,78795] [15432,18312] [23451,38765] [43451,78795]
+please insert next line or type 'X' to finish input
+[15432,18312] [23451,38765] [43451,78795]
+please insert next line or type 'X' to finish input
+X
+Ranges processing result:
+[15432,18312]
+[23451,38765]
+[43451,78795]
+
 ```
 
-## Deployment
+## Implementation details
 
-Add additional notes about how to deploy this on a live system
+1. Strategy pattern was used to provide different readers and result receivers tp the range processor.
+2. Treeset was used to store ranges as it makes them sorted right after insertion and we just need to find overlaps. Two iterators are used to merge.
+3. The app doesn't store the merged ranges - it is passed to receiver and it depents on it what to do. Default one just prints to console.
+4. Input validator checks for input mask, that is configurable in Application Configuration class. So is a delims string.
+
 
 
 ## Authors

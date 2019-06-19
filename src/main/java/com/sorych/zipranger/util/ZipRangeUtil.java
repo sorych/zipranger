@@ -33,6 +33,20 @@ public class ZipRangeUtil {
     return fromInt(Integer.parseInt(multiTokenizer.nextToken()),
         Integer.parseInt(multiTokenizer.nextToken()));
   }
+
+  public boolean overlap(ZipRange zr1, ZipRange zr2) {
+    return (zr1.end - zr2.begin) >= 0;
+  }
+
+  /**
+   * we assume here that first is less than second
+   * @param zp1
+   * @param zr2
+   * @return the ZipRange result of the merge
+   */
+  public ZipRange merge(ZipRange zp1, ZipRange zr2) {
+    return fromInt(zp1.begin, zp1.end > zr2.end ? zp1.end : zr2.end);
+  }
 }
 
 
