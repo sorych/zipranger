@@ -1,10 +1,9 @@
 package com.sorych.zipranger;
 
-import static com.sorych.zipranger.ZipRange.fromString;
-
 import com.sorych.zipranger.comparator.ZipRangesComparator;
 import com.sorych.zipranger.reader.ZipRangesReader;
 import com.sorych.zipranger.receiver.ResultReceiver;
+import com.sorych.zipranger.util.ZipRangeUtil;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -13,14 +12,13 @@ public class TreeSetBasedZipRangesProcessor implements ZipRangesProcessor {
   public TreeSetBasedZipRangesProcessor(ApplicationConfigurator configurator) {
     this.resultReceiver = configurator.getResultReceiver();
     this.zipRangesReader = configurator.getZipRangesReader();
-    this.zipRangeDelim = configurator.getRangeDelim();
-    this.zipRangeValidator = new ZipRangeValidator(configurator.getZipRangeRegex());
+    this.zipRangeUtil = new ZipRangeUtil(configurator.getZipRangeRegex(),
+        configurator.getRangeDelim());
   }
 
-  private String zipRangeDelim;
   private ResultReceiver resultReceiver;
   private ZipRangesReader zipRangesReader;
-  private ZipRangeValidator zipRangeValidator;
+  private ZipRangeUtil zipRangeUtil;
 
   private Set<ZipRange> zipRanges = new TreeSet<>(new ZipRangesComparator());
 
@@ -35,8 +33,9 @@ public class TreeSetBasedZipRangesProcessor implements ZipRangesProcessor {
       if (nextRange == null) {
         break;
       }
-      zipRangeValidator.validate(nextRange);
-      processRange(fromString(nextRange, zipRangeDelim));
+      ZipRange zipRange = zipRangeUtil.fromString(nextRange);
+      zipRangeUtil.validate(zipRange);
+      processRange(zipRange);
     }
     finalizeProcessing();
 
