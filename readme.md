@@ -69,7 +69,7 @@ Ranges processing result:
 1. Strategy pattern was used to provide different readers and result receivers to the range processor.
 2. Factory Method pattern was used to create different objects based on params.
 2. Treeset was used to store ranges as it makes them sorted right after insertion and we just need to find overlaps. Two iterators are used to merge.
-3. The app doesn't store the merged ranges - it is passed to receiver and receiver is responsible on what to do with the result. Default one just prints to console.
+3. The app doesn't store the merged ranges - they are passed to receiver and receiver is responsible on what to do with the result. Default one just prints to console.
 4. Input validator checks for input mask, that is configurable in Application Configuration class. So is a delims string.
 5. TDD approach has been used, so mostly everything is covered with tests
 
