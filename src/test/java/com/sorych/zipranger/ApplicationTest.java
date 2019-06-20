@@ -4,7 +4,6 @@ import static com.sorych.zipranger.TestZipRangesReader.DEFAULT_STRING_INPUT;
 import static org.junit.Assert.assertEquals;
 
 import com.sorych.zipranger.reader.ZipRangesReader;
-import com.sorych.zipranger.receiver.ResultReceiver;
 import org.junit.Test;
 
 public class ApplicationTest {
@@ -22,87 +21,83 @@ public class ApplicationTest {
 
   @Test
   public void testCustomInput1() {
-    Application.setApplicationConfigurator(
-        new TestApplicationConfigurator(receiver, new TestZipRangesReader("[23451,98765]")));
+    setupInput("[23451,98765]");
     Application.main();
     assertEquals("[23451,98765]", receiver.getFinalResult());
   }
 
   @Test
   public void testZipStartsWithZero() {
-    Application.setApplicationConfigurator(
-        new TestApplicationConfigurator(receiver, new TestZipRangesReader("[00051,68765] [01312,77777]")));
+    setupInput("[00051,68765] [01312,77777]");
     Application.main();
     assertEquals("[00051,77777]", receiver.getFinalResult());
   }
 
   @Test(expected = RuntimeException.class)
   public void testEmptyInput() {
-    Application.setApplicationConfigurator(
-        new TestApplicationConfigurator(receiver, new TestZipRangesReader("")));
+    setupInput("");
     Application.main();
   }
 
   @Test
   public void testCustomInput2() {
-    Application.setApplicationConfigurator(new TestApplicationConfigurator(receiver,
-        new TestZipRangesReader("[23451,38765] [65432,98312]")));
+    setupInput("[23451,38765] [65432,98312]");
     Application.main();
     assertEquals("[23451,38765] [65432,98312]", receiver.getFinalResult());
   }
 
   @Test(expected = RuntimeException.class)
   public void shouldFailWrongFormat() {
-    Application.setApplicationConfigurator(
-        new TestApplicationConfigurator(receiver, new TestZipRangesReader("[23451,98765")));
+    setupInput("[23451,98765");
     Application.main();
   }
 
   @Test(expected = RuntimeException.class)
   public void shouldFailWrongZipFormat() {
-    Application.setApplicationConfigurator(
-        new TestApplicationConfigurator(receiver, new TestZipRangesReader("[231,98765")));
+    setupInput("[231,98765");
     Application.main();
   }
 
   @Test
   public void shouldBeInReversedOrder() {
-    Application.setApplicationConfigurator(new TestApplicationConfigurator(receiver,
-        new TestZipRangesReader("[65432,98312] [23451,38765]")));
+    setupInput("[65432,98312] [23451,38765]");
     Application.main();
     assertEquals("[23451,38765] [65432,98312]", receiver.getFinalResult());
   }
 
   @Test
   public void shouldBeMerged() {
-    Application.setApplicationConfigurator(new TestApplicationConfigurator(receiver,
-        new TestZipRangesReader("[15432,98312] [23451,38765]")));
+    setupInput("[15432,98312] [23451,38765]");
     Application.main();
     assertEquals("[15432,98312]", receiver.getFinalResult());
   }
 
   @Test
   public void shouldBeMerged2() {
-    Application.setApplicationConfigurator(new TestApplicationConfigurator(receiver,
-        new TestZipRangesReader("[15432,98312] [23451,38765] [13451,38795]")));
+    setupInput("[15432,98312] [23451,38765] [13451,38795]");
     Application.main();
     assertEquals("[13451,98312]", receiver.getFinalResult());
   }
 
   @Test
   public void shouldBeMerged3() {
-    Application.setApplicationConfigurator(new TestApplicationConfigurator(receiver,
-        new TestZipRangesReader("[15432,18312] [15432,18312] [75432,98312] [15432,18312] [15432,18312] [15432,18312] [15432,18312] [13451,38795]")));
+    setupInput(
+        "[15432,18312] [15432,18312] [75432,98312] [15432,18312] [15432,18312] [15432,18312] [15432,18312] [13451,38795]");
     Application.main();
     assertEquals("[13451,38795] [75432,98312]", receiver.getFinalResult());
   }
 
   @Test
   public void shouldNotBeMerged() {
-    Application.setApplicationConfigurator(new TestApplicationConfigurator(receiver,
-        new TestZipRangesReader("[15432,18312] [23451,38765] [43451,78795]")));
+    setupInput("[15432,18312] [23451,38765] [43451,78795]");
     Application.main();
     assertEquals("[15432,18312] [23451,38765] [43451,78795]", receiver.getFinalResult());
+  }
+
+
+  private void setupInput(String s) {
+    Application.setApplicationConfigurator(new TestApplicationConfigurator(receiver,
+        new TestZipRangesReader(s)));
   }
 
 
