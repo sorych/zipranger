@@ -82,6 +82,14 @@ public class ApplicationTest {
   }
 
   @Test
+  public void shouldBeMerged3() {
+    Application.setApplicationConfigurator(new TestApplicationConfigurator(receiver,
+        new TestZipRangesReader("[15432,18312] [15432,18312] [75432,98312] [15432,18312] [15432,18312] [15432,18312] [15432,18312] [13451,38795]")));
+    Application.main();
+    assertEquals("[13451,38795] [75432,98312]", receiver.getFinalResult());
+  }
+
+  @Test
   public void shouldNotBeMerged() {
     Application.setApplicationConfigurator(new TestApplicationConfigurator(receiver,
         new TestZipRangesReader("[15432,18312] [23451,38765] [43451,78795]")));

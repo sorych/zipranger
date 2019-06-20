@@ -63,6 +63,7 @@ public class TreeSetBasedZipRangesProcessor implements ZipRangesProcessor {
     while (true) {
       if (zipRangeUtil.overlap(zr1, zr2)) {
         zr1 = zipRangeUtil.merge(zr1, zr2);
+        first.next();
       } else {
         resultReceiver.consume(zr1);
         zr1 = first.next();

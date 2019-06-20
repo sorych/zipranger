@@ -1,4 +1,4 @@
-package com.sorych.zipranger;
+package com.sorych.zipranger.util;
 
 import static com.sorych.zipranger.ZipRange.fromInt;
 import static org.junit.Assert.assertEquals;
@@ -7,7 +7,6 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import com.sorych.zipranger.configurator.ApplicationConfigurator;
-import com.sorych.zipranger.util.ZipRangeUtil;
 import org.junit.Test;
 
 public class ZipRangeUtilTest {
@@ -79,13 +78,13 @@ public class ZipRangeUtilTest {
   }
 
   @Test
-  public void shouldBeMerged() {
+  public void shouldBeMergedParticallyOverlap() {
     assertEquals(fromInt(12312, 52312),
         zipRangeUtil.merge(fromInt(12312, 32312), fromInt(22312, 52312)));
   }
 
   @Test
-  public void shouldBeMerged2() {
+  public void shouldBeMergedFirstCoversSecond() {
     assertEquals(fromInt(12312, 52312),
         zipRangeUtil.merge(fromInt(12312, 52312), fromInt(22312, 32312)));
   }
@@ -96,7 +95,13 @@ public class ZipRangeUtilTest {
   }
 
   @Test
-  public void shouldBeMerged3() {
+  public void shouldBeMergedTheSame() {
+    assertEquals(fromInt(12312, 52312),
+        zipRangeUtil.merge(fromInt(12312, 52312), fromInt(12312, 52312)));
+  }
+
+  @Test
+  public void shouldBeMergedEndsAndStartsInOnePoint() {
     assertEquals(fromInt(12312, 32312),
         zipRangeUtil.merge(fromInt(12312, 22312), fromInt(22312, 32312)));
   }
