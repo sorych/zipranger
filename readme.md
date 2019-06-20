@@ -53,24 +53,23 @@ BUILD SUCCESSFUL in 1s
 8 actionable tasks: 8 executed
 
 dimasmac:zipranger DimaS$ java -jar build/libs/zipranger-1.0.jar 
-please insert next line or type 'X' to finish input
+please insert next line or type 'X' to complete input
 [15432,18312] [23451,38765] [43451,78795] [15432,18312] [23451,38765] [43451,78795] [15432,18312] [23451,38765] [43451,78795]
 please insert next line or type 'X' to finish input
 [15432,18312] [23451,38765] [43451,78795]
 please insert next line or type 'X' to finish input
 X
 Ranges processing result:
-[15432,18312]
-[23451,38765]
-[43451,78795]
+[15432,18312] [23451,38765] [43451,78795]
 
 ```
 
 ## Implementation details
 
-1. Strategy pattern was used to provide different readers and result receivers tp the range processor.
+1. Strategy pattern was used to provide different readers and result receivers to the range processor.
+2. Factory Method pattern was used to create different objects based on params.
 2. Treeset was used to store ranges as it makes them sorted right after insertion and we just need to find overlaps. Two iterators are used to merge.
-3. The app doesn't store the merged ranges - it is passed to receiver and it depents on it what to do. Default one just prints to console.
+3. The app doesn't store the merged ranges - it is passed to receiver and receiver is responsible on what to do with the result. Default one just prints to console.
 4. Input validator checks for input mask, that is configurable in Application Configuration class. So is a delims string.
 5. TDD approach has been used, so mostly everything is covered with tests
 

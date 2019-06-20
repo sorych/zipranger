@@ -21,7 +21,6 @@ public class Application {
    *
    * @param applicationConfigurator
    */
-
   public static void setApplicationConfigurator(
       ApplicationConfigurator applicationConfigurator) {
     Application.applicationConfigurator = applicationConfigurator;
