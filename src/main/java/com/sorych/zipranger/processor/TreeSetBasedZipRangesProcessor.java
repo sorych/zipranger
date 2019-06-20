@@ -3,6 +3,7 @@ package com.sorych.zipranger.processor;
 import com.sorych.zipranger.ZipRange;
 import com.sorych.zipranger.comparator.ZipRangesComparator;
 import com.sorych.zipranger.configurator.ApplicationConfigurator;
+import com.sorych.zipranger.exception.ZipRangeProcessingException;
 import com.sorych.zipranger.reader.ZipRangesReader;
 import com.sorych.zipranger.receiver.ResultReceiver;
 import com.sorych.zipranger.util.ZipRangeUtil;
@@ -26,7 +27,7 @@ public class TreeSetBasedZipRangesProcessor implements ZipRangesProcessor {
   private Set<ZipRange> zipRanges = new TreeSet<>(new ZipRangesComparator());
 
   @Override
-  public void proceedZipRangesTask() {
+  public void runTask() {
     if (resultReceiver == null || zipRangesReader == null) {
       throw new IllegalStateException("not set up");
     }
@@ -36,8 +37,14 @@ public class TreeSetBasedZipRangesProcessor implements ZipRangesProcessor {
       if (nextRange == null) {
         break;
       }
-      ZipRange zipRange = zipRangeUtil.fromString(nextRange);
-      zipRangeUtil.validate(zipRange);
+      ZipRange zipRange;
+      try {
+        zipRange = zipRangeUtil.fromString(nextRange);
+        zipRangeUtil.validate(zipRange);
+      } catch (ZipRangeProcessingException e) {
+        resultReceiver.consumeError(e.getMessage());
+        return;
+      }
       processRange(zipRange);
     }
     finalizeProcessing();
@@ -45,7 +52,7 @@ public class TreeSetBasedZipRangesProcessor implements ZipRangesProcessor {
   }
 
   private void finalizeProcessing() {
-    resultReceiver.informJobIsAboutDone();
+    resultReceiver.startReceivingResults();
 
     Iterator<ZipRange> first = zipRanges.iterator();
     Iterator<ZipRange> second = zipRanges.iterator();

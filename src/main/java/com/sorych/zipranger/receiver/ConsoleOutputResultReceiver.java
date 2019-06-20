@@ -6,11 +6,16 @@ public class ConsoleOutputResultReceiver implements ResultReceiver {
 
   @Override
   public void consume(ZipRange result) {
-    System.out.println(result);
+    System.out.print(result + " ");
   }
 
   @Override
-  public void informJobIsAboutDone() {
+  public void consumeError(String cause) {
+    System.out.println(String.format("Error while processing zip ranges, details: %s", cause));
+  }
+
+  @Override
+  public void startReceivingResults() {
     System.out.println("Ranges processing result:");
   }
 }

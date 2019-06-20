@@ -7,6 +7,7 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import com.sorych.zipranger.configurator.ApplicationConfigurator;
+import com.sorych.zipranger.exception.ZipRangeProcessingException;
 import org.junit.Test;
 
 public class ZipRangeUtilTest {
@@ -27,25 +28,25 @@ public class ZipRangeUtilTest {
     assertEquals(fromInt(22312, 22312), zipRangeUtil.fromString(valid));
   }
 
-  @Test(expected = IllegalArgumentException.class)
+  @Test(expected = ZipRangeProcessingException.class)
   public void shouldFailWrongFormat() {
     String invalid = "2313,41214";
     zipRangeUtil.fromString(invalid);
   }
 
-  @Test(expected = IllegalArgumentException.class)
+  @Test(expected = ZipRangeProcessingException.class)
   public void shouldFailLess5Digits() {
     String invalid = "[2313,41214]";
     zipRangeUtil.fromString(invalid);
   }
 
-  @Test(expected = IllegalArgumentException.class)
+  @Test(expected = ZipRangeProcessingException.class)
   public void shouldFailOnlyOneValue() {
     String invalid = "[41214]";
     zipRangeUtil.fromString(invalid);
   }
 
-  @Test(expected = IllegalArgumentException.class)
+  @Test(expected = ZipRangeProcessingException.class)
   public void shouldFailSecondLess() {
     String valid = "[99999,41451]";
     zipRangeUtil.validate(zipRangeUtil.fromString(valid));

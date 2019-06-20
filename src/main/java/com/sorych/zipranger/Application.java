@@ -12,8 +12,15 @@ public class Application {
   public static void main(String... args) {
     ZipRangesProcessor zipRangesProcessor = new TreeSetBasedZipRangesProcessor(
         applicationConfigurator);
-    zipRangesProcessor.proceedZipRangesTask();
+    zipRangesProcessor.runTask();
   }
+
+  /**
+   * setter to "inject" configurator,
+   * used in test
+   *
+   * @param applicationConfigurator
+   */
 
   public static void setApplicationConfigurator(
       ApplicationConfigurator applicationConfigurator) {

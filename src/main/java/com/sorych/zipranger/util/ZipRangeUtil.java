@@ -3,6 +3,7 @@ package com.sorych.zipranger.util;
 import static com.sorych.zipranger.ZipRange.fromInt;
 
 import com.sorych.zipranger.ZipRange;
+import com.sorych.zipranger.exception.ZipRangeProcessingException;
 import java.util.StringTokenizer;
 
 public class ZipRangeUtil {
@@ -17,17 +18,18 @@ public class ZipRangeUtil {
 
   public void validate(ZipRange zipRange) {
     if (zipRange.end < zipRange.begin) {
-      throw new IllegalArgumentException("wrong zip range format, begin > end: " + zipRange);
+      throw new ZipRangeProcessingException("wrong zip range format, begin > end: " + zipRange);
     }
   }
 
   public ZipRange fromString(String value) {
     if (!value.matches(zipRangeRegex)) {
-      throw new IllegalArgumentException("wrong zip range format: " + value);
+      throw new ZipRangeProcessingException(
+          String.format("zip range format %s doen't match the regex %s", value, zipRangeRegex));
     }
     StringTokenizer multiTokenizer = new StringTokenizer(value, zipRangeDelim);
     if (multiTokenizer.countTokens() < 2) {
-      throw new IllegalStateException(
+      throw new ZipRangeProcessingException(
           String.format("zip range cannot be tokenized using %s delimeter", zipRangeDelim));
     }
     return fromInt(Integer.parseInt(multiTokenizer.nextToken()),
@@ -40,15 +42,15 @@ public class ZipRangeUtil {
 
   /**
    * merges two ZipRange to one if overlap
-   * @param zr1
-   * @param zr2
+   *
    * @return the ZipRange result of the merge, null if not overlapping
    */
   public ZipRange merge(ZipRange zr1, ZipRange zr2) {
     if (!overlap(zr1, zr2)) {
       return null;
     }
-    return fromInt(zr1.begin > zr2.begin ? zr2.begin : zr1.begin, zr1.end > zr2.end ? zr1.end : zr2.end);
+    return fromInt(zr1.begin > zr2.begin ? zr2.begin : zr1.begin,
+        zr1.end > zr2.end ? zr1.end : zr2.end);
   }
 }
 

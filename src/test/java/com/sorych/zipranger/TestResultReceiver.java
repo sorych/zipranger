@@ -14,6 +14,10 @@ public class TestResultReceiver implements ResultReceiver {
   }
 
   @Override
+  public void consumeError(String cause) {
+    throw new RuntimeException(cause);
+  }
+
   public String getFinalResult() {
     return String.join(" ", applicationResults);
   }

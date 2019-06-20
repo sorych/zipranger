@@ -9,7 +9,7 @@ import org.junit.Test;
 
 public class ApplicationTest {
 
-  private ResultReceiver receiver = new TestResultReceiver();
+  private TestResultReceiver receiver = new TestResultReceiver();
   private ZipRangesReader reader = new TestZipRangesReader();
 
 
@@ -28,7 +28,15 @@ public class ApplicationTest {
     assertEquals("[23451,98765]", receiver.getFinalResult());
   }
 
-  @Test(expected = IllegalArgumentException.class)
+  @Test
+  public void testZipStartsWithZero() {
+    Application.setApplicationConfigurator(
+        new TestApplicationConfigurator(receiver, new TestZipRangesReader("[00051,68765] [01312,77777]")));
+    Application.main();
+    assertEquals("[00051,77777]", receiver.getFinalResult());
+  }
+
+  @Test(expected = RuntimeException.class)
   public void testEmptyInput() {
     Application.setApplicationConfigurator(
         new TestApplicationConfigurator(receiver, new TestZipRangesReader("")));
@@ -43,14 +51,14 @@ public class ApplicationTest {
     assertEquals("[23451,38765] [65432,98312]", receiver.getFinalResult());
   }
 
-  @Test(expected = IllegalArgumentException.class)
+  @Test(expected = RuntimeException.class)
   public void shouldFailWrongFormat() {
     Application.setApplicationConfigurator(
         new TestApplicationConfigurator(receiver, new TestZipRangesReader("[23451,98765")));
     Application.main();
   }
 
-  @Test(expected = IllegalArgumentException.class)
+  @Test(expected = RuntimeException.class)
   public void shouldFailWrongZipFormat() {
     Application.setApplicationConfigurator(
         new TestApplicationConfigurator(receiver, new TestZipRangesReader("[231,98765")));

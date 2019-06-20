@@ -16,7 +16,7 @@ public class ConsoleZipcodeRangeReader implements ZipRangesReader {
   @Override
   public String getNextZipRangeString() {
     if (queue.peek() == null) {
-      System.out.println("please insert next line or type " + END_INPUT_STRING + " to finish input");
+      System.out.println("please insert next line or type '" + END_INPUT_STRING + "' to complete input");
       Scanner scanner = new Scanner(System.in);
       String inputString = scanner.nextLine();
       if (END_INPUT_STRING.equals(inputString)) {

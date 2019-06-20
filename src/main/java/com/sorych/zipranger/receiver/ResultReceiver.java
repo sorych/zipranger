@@ -6,10 +6,9 @@ public interface ResultReceiver {
 
   void consume(final ZipRange result);
 
-  default String getFinalResult() {
-    return "job is done";
+  void consumeError(String cause);
+
+  default void startReceivingResults() {
   }
 
-  default void informJobIsAboutDone() {
-  }
 }
